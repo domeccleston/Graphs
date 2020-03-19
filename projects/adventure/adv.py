@@ -27,9 +27,7 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = []
-
-
+traversal_path = ['n', 'n', 's', 's']
 
 # TRAVERSAL TEST
 visited_rooms = set()
@@ -48,9 +46,9 @@ else:
 
 
 
-#######
+# ######
 # UNCOMMENT TO WALK AROUND
-#######
+# ######
 player.current_room.print_room_description(player)
 while True:
     cmds = input("-> ").lower().split(" ")
