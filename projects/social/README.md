@@ -48,9 +48,14 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
 
+- add_friendship() is called in a loop with range (num_users * avg_friendships // 2). In this case that means
+  100 * 5 == 500. This is because each call creates two friendships.
+
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
 
-
+If each user has on average 5 friends, they will have on average (5 / 999) * 100 % of the total number of friends, or ~0.5%. So the probability that I have any other user in my friendships is 0.005. Each of these
+friends has on average the same number of friends, so including these expands my pool to 5 * 5 friends == 25 
+or 2.5%. Each of these 25 friends has on average 5 friends of their own, increasing the pool to 125. Increasing this one more time to 3 means that I am looking at the probability that any user falls into a pool of 625 people / 1000, giving a 62.5% chance that they are located within 3 degrees of separation. 62.5 is a bit higher than 50 so I predict the average degree of separation will be a bit less, around 2.9
 
 ## 4. Stretch Goal
 
