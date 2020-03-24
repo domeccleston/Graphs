@@ -34,129 +34,132 @@ class Graph:
 
 
     def bft(self, starting_vertex):
+        """
+        Print each vertex in breadth-first order
+        beginning from starting_vertex.
+        """
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited = set()
+
+        while q.size() > 0:
+            current_vertex = q.dequeue()
+            if current_vertex not in visited:
+                visited.add(current_vertex)
+                print(current_vertex)
+
+                for neighbor in self.get_neighbors(current_vertex):
+                    q.enqueue(neighbor)
+
+    def dft(self, starting_vertex):
+        s = Stack()
+        s.push(starting_vertex)
+        visited = set()
+
+        while s.size() > 0:
+            current_vertex = s.pop()
+            if current_vertex not in visited:
+                visited.add(current_vertex)
+                print(current_vertex)
+
+                for neighbor in self.get_neighbors(current_vertex):
+                    s.push(neighbor)
+
+    def dft_recursive(self, starting_vertex, visited=set()):
+
+        print(starting_vertex)
+
+        visited.add(starting_vertex)
+    
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                self.dft_recursive(neighbor, visited)
+
+
+    def bfs(self, starting_vertex_id, target_value):
+        # create a queue to hold the vertex ids
+        q = Queue()
+        # enqueue the start vertex id
+        q.enqueue([starting_vertex_id])
+        # create an empty visited set
+        visited = set()
+        # while the queue is not empty
+        while q.size() > 0:
+            # set vert to the dequeued element
+            vert = q.dequeue()
+            last_vertex = vert[-1]
+            # if the vert is not in visited
+            if last_vertex not in visited:
+                # if vert is target value
+                if last_vertex == target_value:
+                    # return True
+                    return vert
+                # add the vert to visited set
+                visited.add(last_vertex)
+                # loop over next vert in the vertices at the index of vert
+                for next_vert in self.vertices[last_vertex]:
+                    paths = list(vert)
+                    paths.append(next_vert)
+                    # enqueue the next vert
+                    q.enqueue(paths)
+        # return False
+        return False
+
+    def dfs(self, starting_vertex_id, target_value):
+
+        s = Stack()
+
+        s.push([starting_vertex_id])
+        # create an empty visited set
+        visited = set()
+        # while the queue is not empty
+        while s.size() > 0:
+            vert = s.pop()
+            last_vertex = vert[-1]
+            # if the vert is not in visited
+            if last_vertex not in visited:
+                # if vert is target value
+                if last_vertex == target_value:
+                    # return True
+                    return vert
+                # add the vert to visited set
+                visited.add(last_vertex)
+                # loop over next vert in the vertices at the index of vert
+                for next_vert in self.vertices[last_vertex]:
+                    paths = list(vert)
+                    paths.append(next_vert)
+                    # enqueue the next vert
+                    s.push(paths)
+        # return False
+        return False
+
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None, path=None):
         
+        if visited is None:
+            visited = set()
+
+        if path is None:
+            path = list()
+
+        visited.add(starting_vertex) 
+
+        path_copy = path.copy()
+
+        path_copy.append(starting_vertex)
+
+        if starting_vertex == destination_vertex:
+            return path_copy
+
+        for neighbor in self.get_neighbors(starting_vertex):
+            new_path = self.dfs_recursive(neighbor, destination_vertex, visited, path)
+            if new_path:
+                return new_path
+            return None
 
 
 
 
 
-#     def bft(self, starting_vertex):
-#         """
-#         Print each vertex in breadth-first order
-#         beginning from starting_vertex.
-#         """
-#         q = Queue()
-#         q.enqueue(starting_vertex)
-#         visited = set()
-#         while q.size() > 0:
-#             v = q.dequeue()
-#             if v not in visited:
-#                 visited.add(v)
-#                 print(v)
-#                 for next_vertex in self.vertices[v]:
-#                     q.enqueue(next_vertex)
-
-#     def dft(self, starting_vertex):
-#         """
-#         Print each vertex in depth-first order
-#         beginning from starting_vertex.
-#         """
-#         # create empty stack push the starting vertex id
-#         s = Stack()
-#         s.push(starting_vertex)
-#         # create a set to store our visited vertices
-#         visited = set()
-
-#         # while stack is not empty (len greater than 0)
-#         while s.size() > 0:
-#             # pop the first vertex
-#             v = s.pop()
-#             # if that vertex has not been visited
-#             if v not in visited:
-#                 # mark as visited and print for debugging
-#                 visited.add(v)
-#                 print(v)  # for debugging
-#                 # iterate over the child vertices of the current vertex
-#                 for next_vertex in self.vertices[v]:
-#                     # push the next vertex
-#                     s.push(next_vertex)
-
-#     def dft_recursive(self, start_vert, visited=None):
-#         # if the visited structure is set to None
-#         if visited is None:
-#             # create a new set for visited
-#             visited = set()
-
-#         # add a starting vertex to the visited set
-#         visited.add(start_vert)
-
-#         # print the start vertex
-#         print(start_vert)
-
-#         # loop over every child vertex in vertices set at the start vertex
-#         for child_vert in self.vertices[start_vert]:
-#             # if child vertex is not in visited
-#             if child_vert not in visited:
-#                 # do a recursive call to dft_recursive
-#                 # using the child vertex and the current visited set as arguments
-#                 self.dft_recursive(child_vert, visited)
-
-#     def bfs(self, starting_vertex_id, target_value):
-#         # create a queue to hold the vertex ids
-#         q = Queue()
-#         # enqueue the start vertex id
-#         q.enqueue([starting_vertex_id])
-#         # create an empty visited set
-#         visited = set()
-#         # while the queue is not empty
-#         while q.size() > 0:
-#             # set vert to the dequeued element
-#             vert = q.dequeue()
-#             last_vertex = vert[-1]
-#             # if the vert is not in visited
-#             if last_vertex not in visited:
-#                 # if vert is target value
-#                 if last_vertex == target_value:
-#                     # return True
-#                     return vert
-#                 # add the vert to visited set
-#                 visited.add(last_vertex)
-#                 # loop over next vert in the vertices at the index of vert
-#                 for next_vert in self.vertices[last_vertex]:
-#                     paths = list(vert)
-#                     paths.append(next_vert)
-#                     # enqueue the next vert
-#                     q.enqueue(paths)
-#         # return False
-#         return False
-
-#     def dfs(self, starting_vertex_id, target_value):
-
-#         s = Stack()
-
-#         s.push([starting_vertex_id])
-#         # create an empty visited set
-#         visited = set()
-#         # while the queue is not empty
-#         while s.size() > 0:
-#             vert = s.pop()
-#             last_vertex = vert[-1]
-#             # if the vert is not in visited
-#             if last_vertex not in visited:
-#                 # if vert is target value
-#                 if last_vertex == target_value:
-#                     # return True
-#                     return vert
-#                 # add the vert to visited set
-#                 visited.add(last_vertex)
-#                 # loop over next vert in the vertices at the index of vert
-#                 for next_vert in self.vertices[last_vertex]:
-#                     paths = list(vert)
-#                     paths.append(next_vert)
-#                     # enqueue the next vert
-#                     s.enqueue(paths)
-#         # return False
-#         return False
 
 #     def dfs_recursive(self, start_vert, target_value):
 #         """
